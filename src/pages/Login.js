@@ -69,7 +69,12 @@ function Login() {
         window.location.href = res.data.utilisateur.role === 'client' ? '/marketplace' : '/dashboard';
       }
     } catch (err) {
-      setErreur(err.response?.data?.erreur || 'Une erreur est survenue');
+      const data = err.response?.data;
+      if (data?.erreur === 'compte_non_verifie') {
+        setErreur('Ce compte n\'a pas encore été vérifié. Utilisez le code de vérification qui vous a été envoyé par ' + (data.moyen_verification || 'email') + '.');
+      } else {
+        setErreur(data?.erreur || 'Une erreur est survenue');
+      }
     } finally {
       setChargement(false);
     }
