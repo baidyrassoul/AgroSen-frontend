@@ -4,9 +4,6 @@ import api from '../services/api';
 function Login() {
   const [isRegister, setIsRegister] = useState(false);
   const [form, setForm] = useState({ nom: '', email: '', mot_de_passe: '', role: 'agriculteur' });
-  const [verificationEnCours, setVerificationEnCours] = useState(false);
-  const [codeVerification, setCodeVerification] = useState('');
-  const [emailVerification, setEmailVerification] = useState('');
   const [erreur, setErreur] = useState('');
   const [chargement, setChargement] = useState(false);
 
@@ -18,36 +15,34 @@ function Login() {
     e.preventDefault();
     setChargement(true);
     setErreur('');
+
+    if (isRegister && !form.email.endsWith('@gmail.com')) {
+      setErreur('Seuls les emails Gmail (@gmail.com) sont acceptés.');
+      setChargement(false);
+      return;
+    }
+
     try {
       if (isRegister) {
-        await api.post('/auth/register', form);
-        setIsRegister(false);
-        setErreur('Compte créé ! Connectez-vous maintenant.');
-        setVerificationEnCours(false);
-        setCodeVerification('');
+        const res = await api.post('/auth/register', form);
+        // Après inscription, connecter directement
+        const loginRes = await api.post('/auth/login', {
+          email: form.email,
+          mot_de_passe: form.mot_de_passe
+        });
+        localStorage.setItem('token', loginRes.data.token);
+        localStorage.setItem('user', JSON.stringify(loginRes.data.utilisateur));
+        const role = loginRes.data.utilisateur.role;
+        window.location.href = role === 'client' ? '/marketplace' : '/dashboard';
       } else {
-        if (!verificationEnCours) {
-          const res = await api.post('/auth/login', {
-            email: form.email,
-            mot_de_passe: form.mot_de_passe
-          });
-
-          if (res.data.verification_requise) {
-            setVerificationEnCours(true);
-            setEmailVerification(res.data.email || form.email);
-            setErreur('Un code de vérification a été envoyé à votre adresse email.');
-            return;
-          }
-        } else {
-          const res = await api.post('/auth/login/verify', {
-            email: emailVerification || form.email,
-            code: codeVerification
-          });
-          localStorage.setItem('token', res.data.token);
-          localStorage.setItem('user', JSON.stringify(res.data.utilisateur));
-          const role = res.data.utilisateur.role;
-          window.location.href = role === 'client' ? '/marketplace' : '/dashboard';
-        }
+        const res = await api.post('/auth/login', {
+          email: form.email,
+          mot_de_passe: form.mot_de_passe
+        });
+        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('user', JSON.stringify(res.data.utilisateur));
+        const role = res.data.utilisateur.role;
+        window.location.href = role === 'client' ? '/marketplace' : '/dashboard';
       }
     } catch (err) {
       setErreur(err.response?.data?.erreur || 'Une erreur est survenue');
@@ -62,7 +57,6 @@ function Login() {
     <div style={styles.container}>
       {/* Panneau gauche — identité */}
       <div style={styles.leftPanel}>
-        <div style={styles.leftPattern} />
         <div style={styles.leftContent}>
           <div style={styles.logoBadge}><img src="/logo.png" alt="AgroSen" style={styles.logoImg} /></div>
           <p style={styles.brandTagline}>
@@ -90,10 +84,10 @@ function Login() {
               Système d'aide aux producteurs agricoles sénégalais — détection de maladies, estimation du rendement, et vente directe.
             </p>
             <div style={{...styles.statsRow, marginBottom: '24px'}}>
-              <div style={{...styles.statItem, border: '1px solid #e0dccf', color: colors.vert, background: '#fff'}}>
+              <div style={{...styles.statItemMobile, color: colors.vert, background: '#fff'}}>
                 <IconLeafSmall /> <span>Arachide & Maïs</span>
               </div>
-              <div style={{...styles.statItem, border: '1px solid #e0dccf', color: colors.ocre, background: '#fff'}}>
+              <div style={{...styles.statItemMobile, color: colors.olive, background: '#fff'}}>
                 <IconChartSmall /> <span>Diagnostic IA</span>
               </div>
             </div>
@@ -150,7 +144,7 @@ function Login() {
               style={styles.input}
               type="email"
               name="email"
-              placeholder="Adresse email"
+              placeholder="Adresse Gmail (@gmail.com)"
               value={form.email}
               onChange={handleChange}
               required
@@ -165,41 +159,9 @@ function Login() {
               required
             />
 
-            {!isRegister && verificationEnCours && (
-              <>
-                <div style={styles.verificationNotice}>
-                  Nous avons envoyé un code à {emailVerification || form.email}. Saisissez-le pour terminer la connexion.
-                </div>
-                <input
-                  style={styles.input}
-                  type="text"
-                  inputMode="numeric"
-                  name="codeVerification"
-                  placeholder="Code reçu par email"
-                  value={codeVerification}
-                  onChange={(e) => setCodeVerification(e.target.value)}
-                  required
-                />
-              </>
-            )}
-
             <button style={styles.button} type="submit" disabled={chargement}>
-              {chargement ? 'Chargement...' : (isRegister ? "S'inscrire" : (verificationEnCours ? 'Vérifier le code' : 'Se connecter'))}
+              {chargement ? 'Chargement...' : (isRegister ? "S'inscrire" : 'Se connecter')}
             </button>
-
-            {!isRegister && verificationEnCours && (
-              <button
-                type="button"
-                style={{ ...styles.button, marginTop: '10px', background: '#6b7280' }}
-                onClick={() => {
-                  setVerificationEnCours(false);
-                  setCodeVerification('');
-                  setErreur('');
-                }}
-              >
-                Modifier l'adresse ou le mot de passe
-              </button>
-            )}
           </form>
 
           <p style={styles.toggle}>
@@ -225,37 +187,31 @@ function IconCartSmall() { return <svg {...smallIconProps}><circle cx="9" cy="20
 
 const colors = {
   vert: '#2D5F2E',
-  ocre: '#D4A24C',
-  indigo: '#1E3A5F',
+  olive: '#5A8F3C',
+  foret: '#1B4332',
   sable: '#F7F3E9',
-  terre: '#8B4A3B',
+  terre: '#8B6F47',
   encre: '#1A1A1A',
 };
 
 const styles = {
   container: { minHeight: '100vh', display: 'flex', fontFamily: "'Work Sans', sans-serif" },
 
-  leftPanel: { position: 'relative', overflow: 'hidden', flex: '1 1 45%', background: colors.indigo, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '48px' },
-  leftPattern: {
-    position: 'absolute', inset: 0, opacity: 0.1,
-    backgroundImage: `repeating-linear-gradient(115deg, ${colors.ocre} 0px, ${colors.ocre} 2px, transparent 2px, transparent 26px)`,
-  },
+  leftPanel: { position: 'relative', overflow: 'hidden', flex: '1 1 45%', background: colors.foret, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '48px' },
   leftContent: { position: 'relative', maxWidth: '420px', color: colors.sable },
   
-  brandIcon: { color: colors.ocre, marginBottom: '20px' },
-logoBadge: { display: 'inline-block', background: '#fff', borderRadius: '16px', padding: '12px', marginBottom: '20px' },
-logoImg: { width: '64px', height: '64px', display: 'block' },
-  brandTitle: { fontFamily: "'Fraunces', serif", fontSize: '36px', fontWeight: '600', margin: '0 0 16px' },
+  logoBadge: { display: 'inline-block', background: '#fff', borderRadius: '16px', padding: '12px', marginBottom: '20px' },
+  logoImg: { width: '64px', height: '64px', display: 'block' },
   brandTagline: { fontSize: '15px', lineHeight: '1.7', color: 'rgba(247,243,233,0.8)', marginBottom: '32px' },
   statsRow: { display: 'flex', gap: '20px', flexWrap: 'wrap' },
-  statItem: { display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: colors.ocre, background: 'rgba(255,255,255,0.08)', padding: '8px 14px', borderRadius: '20px' },
+  statItem: { display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: colors.olive, background: 'rgba(255,255,255,0.08)', padding: '8px 14px', borderRadius: '20px' },
+  statItemMobile: { display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', border: '1px solid #e0dccf', padding: '8px 14px', borderRadius: '20px' },
 
   rightPanel: { flex: '1 1 55%', background: colors.sable, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '32px' },
   card: { width: '100%', maxWidth: '380px' },
   eyebrow: { color: colors.terre, fontSize: '13px', fontWeight: '600', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px' },
   formTitle: { color: colors.encre, fontFamily: "'Fraunces', serif", fontSize: '26px', fontWeight: '600', marginBottom: '24px' },
   message: { padding: '11px 14px', borderRadius: '10px', marginBottom: '16px', fontSize: '14px' },
-  verificationNotice: { marginBottom: '12px', padding: '10px 12px', borderRadius: '8px', background: '#eef4ec', color: colors.vert, fontSize: '13px', lineHeight: '1.5' },
 
   roleRow: { display: 'flex', gap: '10px', marginBottom: '12px' },
   roleBtn: {
@@ -271,7 +227,7 @@ logoImg: { width: '64px', height: '64px', display: 'block' },
     boxSizing: 'border-box', outline: 'none', fontFamily: "'Work Sans', sans-serif", background: '#fff',
   },
   button: {
-    width: '100%', padding: '13px', background: colors.indigo, color: '#fff',
+    width: '100%', padding: '13px', background: colors.foret, color: '#fff',
     border: 'none', borderRadius: '8px', fontSize: '15px', fontWeight: '600',
     cursor: 'pointer', marginTop: '4px', fontFamily: "'Work Sans', sans-serif",
   },
