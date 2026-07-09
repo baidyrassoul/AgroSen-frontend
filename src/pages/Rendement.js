@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import api from '../services/api';
 import PremiumModal from '../components/PremiumModal';
+import colors from '../colors';
 
 function Rendement() {
   const [form, setForm] = useState({
     culture: 'mais',
     superficie_ha: '',
-    type_sol: 'argilo_sableux',
+    type_sol: 'deck',
     pluviometrie: 'normale',
   });
   const [resultat, setResultat] = useState(null);
@@ -117,9 +118,11 @@ function Rendement() {
             <div style={styles.field}>
               <label style={styles.label}>Type de sol</label>
               <select name="type_sol" value={form.type_sol} onChange={handleChange} style={styles.select}>
-                <option value="sableux">🏜️ Sableux</option>
-                <option value="argilo_sableux">🌱 Argilo-sableux</option>
+                <option value="sableux">🏜️ Dior (sableux léger)</option>
+                <option value="deck">🌱 Deck (argilo-sableux)</option>
                 <option value="argileux">🪨 Argileux</option>
+                <option value="limoneux">🌾 Limoneux</option>
+                <option value="lateritique">🧱 Latéritique</option>
               </select>
             </div>
 
@@ -165,7 +168,7 @@ function Rendement() {
             </p>
             <button
               style={styles.newBtn}
-              onClick={() => { setResultat(null); setForm({ culture: 'mais', superficie_ha: '', type_sol: 'argilo_sableux', pluviometrie: 'normale' }); }}
+              onClick={() => { setResultat(null); setForm({ culture: 'mais', superficie_ha: '', type_sol: 'deck', pluviometrie: 'normale' }); }}
             >
               Nouvelle estimation
             </button>
@@ -184,10 +187,7 @@ const iconProps = { width: 18, height: 18, viewBox: '0 0 24 24', fill: 'none', s
 function IconArrowLeft() { return <svg {...iconProps}><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>; }
 function IconSprout() { return <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22v-9"/><path d="M12 13c0-4-3-6-7-6 0 4 3 7 7 7z"/><path d="M12 11c0-4 3-6 7-6 0 4-3 7-7 7z"/></svg>; }
 
-const colors = {
-  vert: '#2D5F2E', ocre: '#D4A24C', indigo: '#1E3A5F',
-  sable: '#F7F3E9', terre: '#8B4A3B', encre: '#1A1A1A',
-};
+
 
 const styles = {
   container: { minHeight: '100vh', background: colors.sable, fontFamily: "'Work Sans', sans-serif" },

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 import PremiumModal from '../components/PremiumModal';
+import colors from '../colors';
 
 const culturesParCategorie = [
   { categorie: 'Céréales', options: [
@@ -193,14 +194,7 @@ const iconProps = { width: 18, height: 18, viewBox: '0 0 24 24', fill: 'none', s
 function IconArrowLeft() { return <svg {...iconProps}><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>; }
 function IconTrash() { return <svg {...iconProps}><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>; }
 
-const colors = {
-  vert: '#2D5F2E',
-  ocre: '#D4A24C',
-  indigo: '#1E3A5F',
-  sable: '#F7F3E9',
-  terre: '#8B4A3B',
-  encre: '#1A1A1A',
-};
+
 
 const styles = {
   container: { minHeight: '100vh', background: colors.sable, fontFamily: "'Work Sans', sans-serif" },

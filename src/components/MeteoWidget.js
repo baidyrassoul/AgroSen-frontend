@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import colors from '../colors';
 
 function MeteoWidget() {
   const [meteo, setMeteo] = useState(null);
@@ -78,16 +79,8 @@ function MeteoWidget() {
   );
 }
 
-const colors = {
-  indigo: '#1E3A5F',
-  ocre: '#D4A24C',
-  sable: '#F7F3E9',
-  vert: '#2D5F2E',
-  encre: '#1A1A1A',
-};
-
 const styles = {
-  widget: { background: `linear-gradient(135deg, ${colors.indigo} 0%, #2a4a7f 100%)`, borderRadius: '16px', padding: '20px', color: 'white', fontFamily: "'Work Sans', sans-serif" },
+  widget: { background: `linear-gradient(135deg, ${colors.indigo} 0%, #1B4332 100%)`, borderRadius: '16px', padding: '20px', color: 'white', fontFamily: "'Work Sans', sans-serif" },
   loading: { textAlign: 'center', padding: '20px', opacity: 0.7, fontSize: '14px' },
   location: { fontSize: '12px', opacity: 0.7, marginBottom: '12px', letterSpacing: '0.5px' },
   main: { display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' },

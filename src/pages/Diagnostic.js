@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import api from '../services/api';
 import PremiumModal from '../components/PremiumModal';
+import colors from '../colors';
 
 function Diagnostic() {
   const [image, setImage] = useState(null);
@@ -154,14 +155,7 @@ function IconPaperclip() { return <svg {...iconProps}><path d="M21 11.5V17a5 5 0
 function IconCheck() { return <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>; }
 function IconAlert() { return <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l10 18H2z"/><path d="M12 10v4"/><path d="M12 17.5v.01"/></svg>; }
 
-const colors = {
-  vert: '#2D5F2E',
-  ocre: '#D4A24C',
-  indigo: '#1E3A5F',
-  sable: '#F7F3E9',
-  terre: '#8B4A3B',
-  encre: '#1A1A1A',
-};
+
 
 const styles = {
   container: { minHeight: '100vh', background: colors.sable, fontFamily: "'Work Sans', sans-serif" },

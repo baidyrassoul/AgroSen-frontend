@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 import PremiumModal from '../components/PremiumModal';
+import colors from '../colors';
 
 const culturesLabels = {
   mais: 'Maïs', mil: 'Mil', sorgho: 'Sorgho', riz: 'Riz',
@@ -259,10 +260,7 @@ function IconArrowLeft() { return <svg {...iconProps}><path d="M19 12H5"/><path 
 function IconPlus() { return <svg {...iconProps}><path d="M12 5v14"/><path d="M5 12h14"/></svg>; }
 function IconField() { return <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M3 20h18"/><path d="M5 20V10l3-3 3 3v10"/><path d="M13 20v-7l3-3 3 3v7"/></svg>; }
 
-const colors = {
-  vert: '#2D5F2E', ocre: '#D4A24C', indigo: '#1E3A5F',
-  sable: '#F7F3E9', terre: '#8B4A3B', encre: '#1A1A1A',
-};
+
 
 const styles = {
   container: { minHeight: '100vh', background: colors.sable, fontFamily: "'Work Sans', sans-serif" },

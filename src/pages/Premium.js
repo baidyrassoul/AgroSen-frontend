@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import colors from '../colors';
 
 function Premium() {
   const [showPayment, setShowPayment] = useState(false);
@@ -263,14 +264,7 @@ function IconLayers() { return <svg width="30" height="30" viewBox="0 0 24 24" f
 function IconHandshake() { return <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M8 12l3 3 7-7"/><path d="M2 12h4l3-3 3 3 3-3 3 3h4"/></svg>; }
 function IconMegaphone() { return <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M3 11v2a2 2 0 0 0 2 2h1l3 5v-9"/><path d="M9 9 19 5v14L9 15"/></svg>; }
 
-const colors = {
-  vert: '#2D5F2E',
-  ocre: '#D4A24C',
-  indigo: '#1E3A5F',
-  sable: '#F7F3E9',
-  terre: '#8B4A3B',
-  encre: '#1A1A1A',
-};
+
 
 const styles = {
   container: { minHeight: '100vh', background: colors.sable, fontFamily: "'Work Sans', sans-serif" },

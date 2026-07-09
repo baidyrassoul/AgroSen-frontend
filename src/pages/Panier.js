@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import colors from '../colors';
 
 function Panier({ panier, setPanier }) {
   const [etape, setEtape] = useState('panier'); // panier → paiement → confirmation
@@ -180,7 +181,7 @@ function Panier({ panier, setPanier }) {
   );
 }
 
-const colors = { vert: '#2D5F2E', ocre: '#D4A24C', indigo: '#1E3A5F', sable: '#F7F3E9', terre: '#8B4A3B', encre: '#1A1A1A' };
+
 
 const styles = {
   container: { minHeight: '100vh', background: colors.sable, fontFamily: "'Work Sans', sans-serif" },

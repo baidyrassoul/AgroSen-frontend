@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../services/api';
+import colors from '../colors';
 
 const culturesEmojis = {
   mais: '🌽', mil: '🌾', sorgho: '🌾', riz: '🍚',
@@ -136,14 +137,7 @@ function IconMessage() { return <svg {...ip}><path d="M21 11.5a8.38 8.38 0 0 1-.
 function IconCorn() { return <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2c3 0 5 4 5 9s-2 11-5 11-5-6-5-11 2-9 5-9z"/><path d="M9 7h6M8.5 11h7M8.5 15h7"/></svg>; }
 function IconPeanut() { return <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M9 3c-3 0-5 3-5 6 0 2 1 3 2 4-1 1-2 2-2 4 0 3 2 6 5 6s5-2 5-5c0-1-.3-2-1-3 1-1 2-2 2-4 0-3-2-6-5-6-.4 0-.7 0-1 .1"/></svg>; }
 
-const colors = {
-  vert: '#2D5F2E',
-  ocre: '#D4A24C',
-  indigo: '#1E3A5F',
-  sable: '#F7F3E9',
-  terre: '#8B4A3B',
-  encre: '#1A1A1A',
-};
+
 
 const styles = {
   container: { minHeight: '100vh', background: colors.sable, fontFamily: "'Work Sans', sans-serif" },

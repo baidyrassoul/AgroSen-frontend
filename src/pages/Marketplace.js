@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import api from '../services/api';
+import colors from '../colors';
 
 const culturesEmojis = {
   mais: '🌽', mil: '🌾', sorgho: '🌾', riz: '🍚',
@@ -237,8 +238,6 @@ function Marketplace() {
 
 const ip = { width: 18, height: 18, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round', strokeLinejoin: 'round' };
 function IconSearch() { return <svg {...ip}><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>; }
-
-const colors = { vert: '#2D5F2E', ocre: '#D4A24C', indigo: '#1E3A5F', sable: '#F7F3E9', terre: '#8B4A3B', encre: '#1A1A1A' };
 
 const styles = {
   container: { minHeight: '100vh', background: colors.sable, fontFamily: "'Work Sans', sans-serif" },

@@ -36,11 +36,11 @@ function Dashboard() {
 
   const navItems = [
     { icon: '🔬', label: 'Détecter une maladie', path: '/diagnostic', color: '#2D5F2E' },
-    { icon: '📊', label: 'Estimer le rendement', path: '/rendement', color: '#1E3A5F' },
+    { icon: '📊', label: 'Estimer le rendement', path: '/rendement', color: '#5A8F3C' },
     { icon: '🌍', label: 'Mes parcelles', path: '/parcelles', color: '#6B3F1E' },
-    { icon: '📋', label: 'Historique', path: '/historique', color: '#4A1E6B' },
-    { icon: '📢', label: 'Publier ma récolte', path: '/publication', color: '#1E5F5F' },
-    { icon: '⭐', label: 'Premium', path: '/premium', color: '#8B6914' },
+    { icon: '📋', label: 'Historique', path: '/historique', color: '#3D6B35' },
+    { icon: '📢', label: 'Publier ma récolte', path: '/publication', color: '#2D5F2E' },
+    { icon: '⭐', label: 'Premium', path: '/premium', color: '#8B6F47' },
   ];
 
   return (
@@ -151,10 +151,7 @@ function Dashboard() {
   );
 }
 
-const colors = {
-  vert: '#2D5F2E', ocre: '#D4A24C', indigo: '#1E3A5F',
-  sable: '#F7F3E9', encre: '#1A1A1A',
-};
+import colors from '../colors';
 
 const styles = {
   root: { minHeight: '100vh', background: colors.sable, fontFamily: "'Work Sans', sans-serif", display: 'flex', flexDirection: 'column' },
